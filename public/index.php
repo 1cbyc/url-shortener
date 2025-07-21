@@ -30,14 +30,14 @@ $dotenv->load();
 
 $dispatcher = simpleDispatcher(function(RouteCollector $r) {
     $r->addRoute('GET', '/', ['UrlShortener\\Controller\\HomeController', 'index']);
+    $r->addRoute('GET', '/admin', ['UrlShortener\\Controller\\AdminController', 'dashboard']);
     $r->addRoute('POST', '/shorten', ['UrlShortener\\Controller\\ShortenController', 'shorten']);
-    $r->addRoute('GET', '/{code}', ['UrlShortener\\Controller\\RedirectController', 'redirect']);
     $r->addRoute('POST', '/register', ['UrlShortener\\Controller\\AuthController', 'register']);
     $r->addRoute('POST', '/login', ['UrlShortener\\Controller\\AuthController', 'login']);
     $r->addRoute('POST', '/logout', ['UrlShortener\\Controller\\AuthController', 'logout']);
     $r->addRoute('POST', '/api/shorten', ['UrlShortener\\Controller\\ApiController', 'shorten']);
     $r->addRoute('GET', '/api/analytics/{code}', ['UrlShortener\\Controller\\ApiController', 'analytics']);
-    $r->addRoute('GET', '/admin', ['UrlShortener\\Controller\\AdminController', 'dashboard']);
+    $r->addRoute('GET', '/{code}', ['UrlShortener\\Controller\\RedirectController', 'redirect']);
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];
