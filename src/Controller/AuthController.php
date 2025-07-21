@@ -8,7 +8,7 @@ class AuthController
 {
     public function register()
     {
-        $email = $_POST['email'] ?? '';
+        $email = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
         $password = $_POST['password'] ?? '';
         if (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($password) < 6) {
             http_response_code(400);
@@ -31,7 +31,7 @@ class AuthController
 
     public function login()
     {
-        $email = $_POST['email'] ?? '';
+        $email = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
         $password = $_POST['password'] ?? '';
         $user = User::where('email', $email)->first();
         if (!$user || !password_verify($password, $user->password)) {

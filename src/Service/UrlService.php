@@ -13,6 +13,18 @@ class UrlService
         if (!$this->isValidUrl($url)) {
             return ['error' => 'Invalid URL'];
         }
+        if ($custom) {
+            $custom = $this->sanitizeCustomCode($custom);
+            if (!$this->isValidCustomCode($custom)) {
+                return ['error' => 'Custom code must be 3-32 alphanumeric characters'];
+            }
+        }
+        if ($expires_at) {
+            $expires_at = $this->sanitizeExpiry($expires_at);
+            if (!$expires_at) {
+                return ['error' => 'Invalid expiry date'];
+            }
+        }
         $code = $custom ?: $this->generateCode();
         $exists = Capsule::table('urls')->where('code', $code)->exists();
         if ($exists) {
@@ -61,5 +73,24 @@ class UrlService
     protected function isValidUrl($url)
     {
         return filter_var($url, FILTER_VALIDATE_URL) !== false;
+    }
+
+    protected function sanitizeCustomCode($code)
+    {
+        return preg_replace('/[^a-zA-Z0-9]/', '', $code);
+    }
+
+    protected function isValidCustomCode($code)
+    {
+        return preg_match('/^[a-zA-Z0-9]{3,32}$/', $code);
+    }
+
+    protected function sanitizeExpiry($expiry)
+    {
+        $ts = strtotime($expiry);
+        if ($ts && $ts > time()) {
+            return date('Y-m-d H:i:s', $ts);
+        }
+        return null;
     }
 } 
