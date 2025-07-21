@@ -8,6 +8,9 @@ class UrlService
 {
     public function shorten($url, $custom = null)
     {
+        if (!$this->isValidUrl($url)) {
+            return ['error' => 'Invalid URL'];
+        }
         $code = $custom ?: $this->generateCode();
         $exists = Capsule::table('urls')->where('code', $code)->exists();
         if ($exists) {
@@ -35,5 +38,10 @@ class UrlService
             $code .= $chars[random_int(0, strlen($chars) - 1)];
         }
         return $code;
+    }
+
+    protected function isValidUrl($url)
+    {
+        return filter_var($url, FILTER_VALIDATE_URL) !== false;
     }
 } 
