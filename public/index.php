@@ -7,6 +7,8 @@ use Dotenv\Dotenv;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
 
+session_start();
+
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
@@ -14,6 +16,9 @@ $dispatcher = simpleDispatcher(function(RouteCollector $r) {
     $r->addRoute('GET', '/', ['UrlShortener\\Controller\\HomeController', 'index']);
     $r->addRoute('POST', '/shorten', ['UrlShortener\\Controller\\ShortenController', 'shorten']);
     $r->addRoute('GET', '/{code}', ['UrlShortener\\Controller\\RedirectController', 'redirect']);
+    $r->addRoute('POST', '/register', ['UrlShortener\\Controller\\AuthController', 'register']);
+    $r->addRoute('POST', '/login', ['UrlShortener\\Controller\\AuthController', 'login']);
+    $r->addRoute('POST', '/logout', ['UrlShortener\\Controller\\AuthController', 'logout']);
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];
