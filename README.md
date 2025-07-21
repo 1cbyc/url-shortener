@@ -22,7 +22,7 @@ PHP URL shortener with modular architecture, robust security, analytics, and a p
 - Web server (Apache, Nginx, or PHP built-in)
 
 ### Installation
-1. Clone the repository
+1. Clone my repository
 2. Run `composer install`
 3. Copy `.env.example` to `.env` and configure your environment
 4. Set up your web server to serve the `public/` directory
