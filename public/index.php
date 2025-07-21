@@ -1,5 +1,11 @@
 <?php
 
+header('Content-Security-Policy: default-src \'self\'; style-src \'self\' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src \'self\' https://fonts.gstatic.com; script-src \'self\' https://cdnjs.cloudflare.com');
+header('X-Frame-Options: DENY');
+header('X-Content-Type-Options: nosniff');
+header('Referrer-Policy: no-referrer-when-downgrade');
+header('Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
+
 if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'on') {
     $httpsUrl = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     header('Location: ' . $httpsUrl, true, 301);
