@@ -8,7 +8,7 @@ use UrlShortener\Model\Click;
 
 class UrlService
 {
-    public function shorten($url, $custom = null)
+    public function shorten($url, $custom = null, $expires_at = null)
     {
         if (!$this->isValidUrl($url)) {
             return ['error' => 'Invalid URL'];
@@ -18,9 +18,12 @@ class UrlService
         if ($exists) {
             return ['error' => 'Code already exists'];
         }
+        $user_id = $_SESSION['user_id'] ?? null;
         Capsule::table('urls')->insert([
             'code' => $code,
             'url' => $url,
+            'user_id' => $user_id,
+            'expires_at' => $expires_at,
             'created_at' => date('Y-m-d H:i:s')
         ]);
         return ['short_url' => getenv('APP_URL') . '/' . $code];
@@ -30,6 +33,9 @@ class UrlService
     {
         $row = Url::where('code', $code)->first();
         if ($row) {
+            if ($row->expires_at && strtotime($row->expires_at) < time()) {
+                return null;
+            }
             Click::create([
                 'url_id' => $row->id,
                 'referrer' => $_SERVER['HTTP_REFERER'] ?? null,
