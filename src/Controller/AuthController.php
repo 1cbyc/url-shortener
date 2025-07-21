@@ -22,7 +22,7 @@ class AuthController
         }
         $user = User::create([
             'email' => $email,
-            'password' => password_hash($password, PASSWORD_DEFAULT),
+            'password' => password_hash($password, PASSWORD_ARGON2ID),
             'created_at' => date('Y-m-d H:i:s')
         ]);
         $_SESSION['user_id'] = $user->id;

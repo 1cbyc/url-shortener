@@ -1,5 +1,15 @@
 <?php
 
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'on') {
+    $httpsUrl = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    header('Location: ' . $httpsUrl, true, 301);
+    exit;
+}
+
+ini_set('session.cookie_secure', '1');
+ini_set('session.cookie_httponly', '1');
+ini_set('session.cookie_samesite', 'Strict');
+
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../src/bootstrap.php';
 
