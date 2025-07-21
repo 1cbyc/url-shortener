@@ -3,6 +3,8 @@
 namespace UrlShortener\Service;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
+use UrlShortener\Model\Url;
+use UrlShortener\Model\Click;
 
 class UrlService
 {
@@ -26,8 +28,18 @@ class UrlService
 
     public function resolve($code)
     {
-        $row = Capsule::table('urls')->where('code', $code)->first();
-        return $row ? $row->url : null;
+        $row = Url::where('code', $code)->first();
+        if ($row) {
+            Click::create([
+                'url_id' => $row->id,
+                'referrer' => $_SERVER['HTTP_REFERER'] ?? null,
+                'ip' => $_SERVER['REMOTE_ADDR'] ?? '',
+                'country' => null,
+                'created_at' => date('Y-m-d H:i:s')
+            ]);
+            return $row->url;
+        }
+        return null;
     }
 
     protected function generateCode($length = 6)
