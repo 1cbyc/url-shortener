@@ -4,11 +4,17 @@ namespace UrlShortener\Controller;
 
 use UrlShortener\Service\UrlService;
 use UrlShortener\Service\RateLimiter;
+use UrlShortener\Service\Csrf;
 
 class ShortenController
 {
     public function shorten()
     {
+        if (!Csrf::validate($_POST['csrf_token'] ?? '')) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Invalid CSRF token']);
+            return;
+        }
         $ip = $_SERVER['REMOTE_ADDR'] ?? '';
         $limiter = new RateLimiter();
         if ($limiter->tooManyRequests($ip)) {

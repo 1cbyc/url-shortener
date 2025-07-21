@@ -6,6 +6,7 @@ use UrlShortener\Service\UrlService;
 use UrlShortener\Model\Url;
 use UrlShortener\Model\Click;
 use UrlShortener\Service\RateLimiter;
+use UrlShortener\Service\Csrf;
 
 class ApiController
 {
@@ -20,6 +21,11 @@ class ApiController
         }
         $limiter->logRequest($ip);
         $data = json_decode(file_get_contents('php://input'), true);
+        if (!Csrf::validate($data['csrf_token'] ?? '')) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Invalid CSRF token']);
+            return;
+        }
         $url = $data['url'] ?? '';
         $custom = $data['custom'] ?? null;
         $expires_at = $data['expires_at'] ?? null;

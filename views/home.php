@@ -58,13 +58,14 @@
     <div class="container">
         <h1>Shorten Your Link</h1>
         <div class="subtitle">Paste your long URL below and get a short, shareable link instantly.</div>
-        <form id="shorten-form">
+        <form id="shorten-form" method="POST">
             <div class="input-group">
                 <input type="url" name="url" id="url" placeholder="Paste your long URL here" required>
             </div>
             <div class="input-group">
                 <input type="text" name="custom" id="custom" placeholder="Custom short code (optional)">
             </div>
+            <input type="hidden" name="csrf_token" id="csrf_token" value="<?= htmlspecialchars(UrlShortener\Service\Csrf::token()) ?>">
             <input type="submit" value="Shorten URL">
         </form>
         <div class="result-section" id="result-section">
@@ -86,6 +87,7 @@
         const copyBtn = document.getElementById('copy-btn');
         const qrCode = document.getElementById('qr-code');
         const feedback = document.getElementById('feedback');
+        const csrfToken = document.getElementById('csrf_token').value;
 
         function showFeedback(message, type) {
             feedback.textContent = message;
@@ -97,6 +99,7 @@
             resultSection.style.display = 'none';
             showFeedback('', '');
             const formData = new FormData(form);
+            formData.set('csrf_token', csrfToken);
             try {
                 const res = await fetch('/shorten', {
                     method: 'POST',
