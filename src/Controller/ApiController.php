@@ -5,11 +5,20 @@ namespace UrlShortener\Controller;
 use UrlShortener\Service\UrlService;
 use UrlShortener\Model\Url;
 use UrlShortener\Model\Click;
+use UrlShortener\Service\RateLimiter;
 
 class ApiController
 {
     public function shorten()
     {
+        $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+        $limiter = new RateLimiter();
+        if ($limiter->tooManyRequests($ip)) {
+            http_response_code(429);
+            echo json_encode(['error' => 'Too many requests']);
+            return;
+        }
+        $limiter->logRequest($ip);
         $data = json_decode(file_get_contents('php://input'), true);
         $url = $data['url'] ?? '';
         $custom = $data['custom'] ?? null;
