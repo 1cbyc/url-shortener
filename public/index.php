@@ -21,6 +21,7 @@ $dispatcher = simpleDispatcher(function(RouteCollector $r) {
     $r->addRoute('POST', '/logout', ['UrlShortener\\Controller\\AuthController', 'logout']);
     $r->addRoute('POST', '/api/shorten', ['UrlShortener\\Controller\\ApiController', 'shorten']);
     $r->addRoute('GET', '/api/analytics/{code}', ['UrlShortener\\Controller\\ApiController', 'analytics']);
+    $r->addRoute('GET', '/admin', ['UrlShortener\\Controller\\AdminController', 'dashboard']);
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];
