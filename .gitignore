@@ -1,0 +1,42 @@
+# Composer dependencies
+/vendor/
+
+# Node dependencies (if any frontend tooling is added)
+/node_modules/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Log files
+*.log
+
+# Environment files
+.env
+.env.*
+
+# Cache
+.cache/
+*.cache
+
+# PHPUnit
+phpunit.xml
+phpunit.xml.dist
+
+# User uploaded files (if any)
+uploads/
+
+# Backup files
+*.bak
+*.tmp
+*.swp
+
+
+# docs
+docs/*.md
