@@ -6,52 +6,6 @@
     <title>URL Shortener</title>
     <link href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <style>
-        :root {
-            --accent: #ff7139;
-            --accent-dark: #e65c1a;
-            --bg: #f7f8fa;
-            --card-bg: #fff;
-            --border: #e0e0e0;
-            --text: #222;
-            --error: #e11d48;
-            --success: #22c55e;
-        }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding: 0; }
-        .container { max-width: 440px; margin: 60px auto; background: var(--card-bg); border-radius: 18px; box-shadow: 0 4px 32px rgba(0,0,0,0.09); padding: 40px 32px 32px 32px; }
-        h1 { font-size: 2.2rem; font-weight: 700; margin-bottom: 18px; color: var(--text); letter-spacing: -1px; }
-        .subtitle { color: #666; font-size: 1.1rem; margin-bottom: 28px; }
-        form { display: flex; flex-direction: column; gap: 18px; }
-        .input-group { display: flex; gap: 10px; }
-        input[type="text"], input[type="url"] { flex: 1; padding: 15px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 1.08rem; transition: border 0.2s; }
-        input[type="text"]:focus, input[type="url"]:focus { border: 1.5px solid var(--accent); outline: none; }
-        input[type="submit"] { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 15px; font-size: 1.08rem; font-weight: 700; cursor: pointer; transition: background 0.2s; }
-        input[type="submit"]:hover { background: var(--accent-dark); }
-        .result-section { margin-top: 32px; display: none; flex-direction: column; align-items: center; gap: 18px; animation: fadeIn 0.7s; }
-        .short-url-box { display: flex; align-items: center; gap: 10px; background: #f3f4f6; border-radius: 8px; padding: 12px 18px; font-size: 1.08rem; }
-        .copy-btn { background: var(--accent); color: #fff; border: none; border-radius: 6px; padding: 8px 12px; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
-        .copy-btn:hover { background: var(--accent-dark); }
-        .qr-section { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .feedback { margin-top: 24px; text-align: center; font-weight: 600; min-height: 28px; transition: color 0.3s; }
-        .feedback.error { color: var(--error); animation: shake 0.4s; }
-        .feedback.success { color: var(--success); }
-        @media (max-width: 600px) {
-            .container { max-width: 98vw; padding: 18px 4vw; }
-            h1 { font-size: 1.5rem; }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes shake {
-            0% { transform: translateX(0); }
-            20% { transform: translateX(-8px); }
-            40% { transform: translateX(8px); }
-            60% { transform: translateX(-8px); }
-            80% { transform: translateX(8px); }
-            100% { transform: translateX(0); }
-        }
-    </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 </head>
 <body>
