@@ -99,8 +99,8 @@ export default function App() {
         onAdmin={() => setPage("admin")}
         onHome={() => setPage("home")}
       />
-      <div className="flex-1 flex items-center justify-center px-2">
-        <div className="w-full max-w-lg bg-white rounded-3xl shadow-2xl p-10 flex flex-col items-center mt-16 border border-slate-100">
+      <div className="flex-1 flex items-center justify-center px-2 md:px-8">
+        <div className="w-full max-w-lg bg-white rounded-3xl shadow-2xl p-4 sm:p-6 md:p-10 flex flex-col items-center mt-4 md:mt-16 border border-slate-100">
           {page === "dashboard" && user ? (
             <UserDashboard user={user} onShowAnalytics={openAnalytics} />
           ) : page === "admin" && isAdmin ? (
@@ -145,11 +145,11 @@ export default function App() {
                 <div className="mt-8 w-full flex flex-col items-center gap-3 animate-fade-in">
                   <div className="flex items-center gap-2 bg-slate-100 rounded-xl px-5 py-3">
                     <a href={shortUrl} target="_blank" rel="noopener noreferrer" className="text-orange-600 font-bold text-lg hover:underline">{shortUrl}</a>
-                    <button onClick={handleCopy} className="ml-2 px-3 py-1 bg-orange-500 hover:bg-orange-600 text-white rounded transition-colors text-base">
-                      {copied ? "Copied!" : "Copy"}
+                    <button onClick={handleCopy} title="Copy short URL to clipboard" className="ml-2 px-3 py-1 bg-orange-500 hover:bg-orange-600 text-white rounded transition-colors text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400">
+                      {copied ? "Copied!" : "Copy Link"}
                     </button>
-                    <button onClick={() => openAnalytics()} className="ml-2 px-3 py-1 bg-slate-200 hover:bg-orange-100 text-orange-600 rounded transition-colors text-base font-semibold">
-                      Analytics
+                    <button onClick={() => openAnalytics()} title="View analytics for this link" className="ml-2 px-3 py-1 bg-slate-200 hover:bg-orange-100 text-orange-600 rounded transition-colors text-base font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400">
+                      View Analytics
                     </button>
                   </div>
                   {qr && (
