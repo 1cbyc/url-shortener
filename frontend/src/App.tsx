@@ -89,7 +89,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-200">
+    <div className="min-h-screen bg-white font-sans">
       <NavBar
         user={user}
         isAdmin={isAdmin}
@@ -101,19 +101,19 @@ export default function App() {
         onHome={() => setPage("home")}
       />
       <div className="flex items-center justify-center px-2">
-        <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 flex flex-col items-center mt-8">
+        <div className="w-full max-w-lg bg-white rounded-3xl shadow-2xl p-10 flex flex-col items-center mt-16 border border-slate-100">
           {page === "dashboard" && user ? (
             <UserDashboard user={user} onShowAnalytics={openAnalytics} />
           ) : page === "admin" && isAdmin ? (
             <AdminDashboard />
           ) : (
             <>
-              <h1 className="text-3xl font-extrabold text-slate-900 mb-2 tracking-tight">Shorten Your Link</h1>
-              <p className="text-slate-500 mb-6 text-center">Paste your long URL below and get a short, shareable link instantly.</p>
+              <h1 className="text-4xl font-extrabold text-slate-900 mb-3 tracking-tight text-center">Shorten Your Link</h1>
+              <p className="text-slate-500 mb-8 text-center text-lg">Paste your long URL below and get a short, shareable link instantly.</p>
               <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit}>
                 <input
                   type="url"
-                  className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 text-base"
+                  className="w-full px-5 py-4 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 text-lg bg-slate-50"
                   placeholder="Paste your long URL here"
                   value={url}
                   onChange={e => setUrl(e.target.value)}
@@ -121,14 +121,14 @@ export default function App() {
                 />
                 <input
                   type="text"
-                  className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 text-base"
+                  className="w-full px-5 py-4 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 text-lg bg-slate-50"
                   placeholder="Custom short code (optional)"
                   value={custom}
                   onChange={e => setCustom(e.target.value)}
                 />
                 <button
                   type="submit"
-                  className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg transition-colors text-lg flex items-center justify-center gap-2 disabled:opacity-60"
+                  className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 rounded-xl transition-colors text-xl flex items-center justify-center gap-2 disabled:opacity-60 shadow-lg"
                   disabled={loading}
                 >
                   {loading ? (
@@ -141,13 +141,13 @@ export default function App() {
                 <div className={`mt-5 text-center font-semibold ${shortUrl ? "text-green-600" : "text-red-500"}`}>{feedback}</div>
               )}
               {shortUrl && (
-                <div className="mt-6 w-full flex flex-col items-center gap-3 animate-fade-in">
-                  <div className="flex items-center gap-2 bg-slate-100 rounded-lg px-4 py-2">
+                <div className="mt-8 w-full flex flex-col items-center gap-3 animate-fade-in">
+                  <div className="flex items-center gap-2 bg-slate-100 rounded-xl px-5 py-3">
                     <a href={shortUrl} target="_blank" rel="noopener noreferrer" className="text-orange-600 font-bold text-lg hover:underline">{shortUrl}</a>
-                    <button onClick={handleCopy} className="ml-2 px-2 py-1 bg-orange-500 hover:bg-orange-600 text-white rounded transition-colors text-sm">
+                    <button onClick={handleCopy} className="ml-2 px-3 py-1 bg-orange-500 hover:bg-orange-600 text-white rounded transition-colors text-base">
                       {copied ? "Copied!" : "Copy"}
                     </button>
-                    <button onClick={() => openAnalytics()} className="ml-2 px-2 py-1 bg-slate-200 hover:bg-orange-100 text-orange-600 rounded transition-colors text-sm font-semibold">
+                    <button onClick={() => openAnalytics()} className="ml-2 px-3 py-1 bg-slate-200 hover:bg-orange-100 text-orange-600 rounded transition-colors text-base font-semibold">
                       Analytics
                     </button>
                   </div>
