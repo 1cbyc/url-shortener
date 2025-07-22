@@ -13,12 +13,11 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [qr, setQr] = useState("");
-  const [authOpen, setAuthOpen] = useState<false | "login" | "register">(false);
+  const [authMode, setAuthMode] = useState<false | "login" | "register">(false);
   const [authLoading, setAuthLoading] = useState(false);
   const [user, setUser] = useState<string | null>(null);
-  const [analyticsOpen, setAnalyticsOpen] = useState(false);
+  const [page, setPage] = useState<"home" | "dashboard" | "admin" | "analytics">("home");
   const [analyticsCode, setAnalyticsCode] = useState("");
-  const [page, setPage] = useState<"home" | "dashboard" | "admin">("home");
   const isAdmin = user === "admin@example.com";
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -58,7 +57,7 @@ export default function App() {
 
   const handleAuth = async (email: string, password: string) => {
     setAuthLoading(true);
-    const endpoint = authOpen === "login" ? "/login" : "/register";
+    const endpoint = authMode === "login" ? "/login" : "/register";
     const form = new FormData();
     form.append("email", email);
     form.append("password", password);
@@ -67,7 +66,7 @@ export default function App() {
     setAuthLoading(false);
     if (res.ok && (text === "Logged in" || text === "Registered")) {
       setUser(email);
-      setAuthOpen(false);
+      setAuthMode(false);
       setPage("dashboard");
     } else {
       throw new Error(text);
@@ -84,7 +83,7 @@ export default function App() {
     const c = code || (shortUrl ? shortUrl.split("/").pop() || "" : "");
     if (c) {
       setAnalyticsCode(c);
-      setAnalyticsOpen(true);
+      setPage("analytics");
     }
   };
 
@@ -93,8 +92,8 @@ export default function App() {
       <Sidebar
         user={user}
         isAdmin={isAdmin}
-        onLogin={() => setAuthOpen("login")}
-        onRegister={() => setAuthOpen("register")}
+        onLogin={() => setAuthMode("login")}
+        onRegister={() => setAuthMode("register")}
         onLogout={handleLogout}
         onDashboard={() => setPage("dashboard")}
         onAdmin={() => setPage("admin")}
@@ -106,7 +105,9 @@ export default function App() {
             <UserDashboard user={user} onShowAnalytics={openAnalytics} />
           ) : page === "admin" && isAdmin ? (
             <AdminDashboard />
-          ) : (
+          ) : page === "analytics" && analyticsCode ? (
+            <AnalyticsPanel code={analyticsCode} onClose={() => setPage("dashboard")} />
+          ) : page === "home" ? (
             <>
               <h1 className="text-4xl font-extrabold text-slate-900 mb-3 tracking-tight text-center">Shorten Your Link</h1>
               <p className="text-slate-500 mb-8 text-center text-lg">Paste your long URL below and get a short, shareable link instantly.</p>
@@ -160,18 +161,15 @@ export default function App() {
                 </div>
               )}
             </>
-          )}
-          {authOpen && (
+          ) : null}
+          {authMode && (
             <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
               <div className="bg-white rounded-xl shadow-xl p-8 w-full max-w-sm relative">
-                <button onClick={() => setAuthOpen(false)} className="absolute top-2 right-2 text-slate-400 hover:text-orange-500 text-2xl">&times;</button>
-                <h2 className="text-2xl font-bold mb-4 text-center">{authOpen === "login" ? "Log In" : "Register"}</h2>
-                <AuthForm mode={authOpen} onAuth={handleAuth} loading={authLoading} />
+                <button onClick={() => setAuthMode(false)} className="absolute top-2 right-2 text-slate-400 hover:text-orange-500 text-2xl">&times;</button>
+                <h2 className="text-2xl font-bold mb-4 text-center">{authMode === "login" ? "Log In" : "Register"}</h2>
+                <AuthForm mode={authMode} onAuth={handleAuth} loading={authLoading} />
               </div>
             </div>
-          )}
-          {analyticsOpen && (
-            <AnalyticsPanel code={analyticsCode} onClose={() => setAnalyticsOpen(false)} />
           )}
         </div>
       </div>
