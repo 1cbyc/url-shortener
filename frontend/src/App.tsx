@@ -3,7 +3,7 @@ import AuthForm from "./components/AuthForm";
 import AnalyticsPanel from "./components/AnalyticsPanel";
 import UserDashboard from "./components/UserDashboard";
 import AdminDashboard from "./components/AdminDashboard";
-import NavBar from "./components/NavBar";
+import Sidebar from "./components/Sidebar";
 
 export default function App() {
   const [url, setUrl] = useState("");
@@ -89,8 +89,8 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans">
-      <NavBar
+    <div className="min-h-screen bg-white font-sans flex">
+      <Sidebar
         user={user}
         isAdmin={isAdmin}
         onLogin={() => setAuthOpen("login")}
@@ -100,7 +100,7 @@ export default function App() {
         onAdmin={() => setPage("admin")}
         onHome={() => setPage("home")}
       />
-      <div className="flex items-center justify-center px-2">
+      <div className="flex-1 flex items-center justify-center px-2">
         <div className="w-full max-w-lg bg-white rounded-3xl shadow-2xl p-10 flex flex-col items-center mt-16 border border-slate-100">
           {page === "dashboard" && user ? (
             <UserDashboard user={user} onShowAnalytics={openAnalytics} />
